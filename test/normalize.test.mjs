@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { normalizeTimecodeText } from '../common.js';
+import { normalizeTimecodeText, normalizeFullwidthDigits } from '../common.js';
 
 const cases = [
     ['828', '8:28'],
@@ -18,4 +18,16 @@ for (const [input, expected] of cases) {
     assert.equal(actual, expected, `normalizeTimecodeText(${JSON.stringify(input)}) should be ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
 }
 
-console.log(`OK: ${cases.length} cases passed`);
+const fullwidthCases = [
+    ['８２８', '828'],
+    ['１２：０２', '12:02'],
+    ['abc', 'abc'], // 対象外文字はそのまま
+];
+
+for (const [input, expected] of fullwidthCases) {
+    const actual = normalizeFullwidthDigits(input);
+    assert.equal(actual, expected, `normalizeFullwidthDigits(${JSON.stringify(input)}) should be ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`);
+    assert.equal(actual.length, input.length, 'normalizeFullwidthDigits must preserve string length (caret offset safety)');
+}
+
+console.log(`OK: ${cases.length + fullwidthCases.length} cases passed`);

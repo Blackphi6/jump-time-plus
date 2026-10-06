@@ -1,7 +1,9 @@
 let normalizeTimecodeText;
+let normalizeFullwidthDigits;
 
 import(chrome.runtime.getURL('common.js')).then(common => {
     normalizeTimecodeText = common.normalizeTimecodeText;
+    normalizeFullwidthDigits = common.normalizeFullwidthDigits;
     if (!common.isLiveChat(location.href)) {
         main();
     }
@@ -101,6 +103,27 @@ function main() {
                     break;
                 default:
                     time_current_confirm = true;
+            }
+        });
+
+        time_current.addEventListener('compositionend', () => {
+            // IME変換確定直後に全角→半角へ即時変換する(体感的に英数強制に近づける)
+            const converted = normalizeFullwidthDigits(time_current.textContent);
+            if (converted === time_current.textContent) return;
+
+            const selection = window.getSelection();
+            const caretOffset = selection.focusOffset;
+
+            time_current.textContent = converted;
+
+            const textNode = time_current.firstChild;
+            if (textNode) {
+                const range = document.createRange();
+                const pos = Math.min(caretOffset, textNode.length);
+                range.setStart(textNode, pos);
+                range.collapse(true);
+                selection.removeAllRanges();
+                selection.addRange(range);
             }
         });
 
