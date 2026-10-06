@@ -1,0 +1,5 @@
+{
+    "appDesc": {
+        "message": "Click the current time on a YouTube video and type a timecode to seek. Supports colon-less input like 828 for 8:28, and nudges IME input to numeric mode."
+    }
+}
