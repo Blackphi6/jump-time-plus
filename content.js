@@ -106,6 +106,13 @@ function main() {
 
         time_current.addEventListener('click', e => {
             e.stopPropagation();
+
+            // クリック位置に関わらず、そのまま上書き入力できるよう全選択する
+            const selection = window.getSelection();
+            const range = document.createRange();
+            range.selectNodeContents(time_current);
+            selection.removeAllRanges();
+            selection.addRange(range);
         });
     }, 500);
 }
