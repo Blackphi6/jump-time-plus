@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Seek to Timecode Control for YouTube Plus",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "__MSG_appDesc__",
     "default_locale": "en",
     "icons": {
@@ -15,6 +15,7 @@
                 "content.css"
             ],
             "js": [
+                "common.js",
                 "content.js"
             ],
             "run_at": "document_start",
@@ -22,16 +23,6 @@
                 "https://www.youtube.com/*"
             ],
             "all_frames": true
-        }
-    ],
-    "web_accessible_resources": [
-        {
-            "resources": [
-                "common.js"
-            ],
-            "matches": [
-                "https://www.youtube.com/*"
-            ]
         }
     ]
 }

@@ -1,4 +1,4 @@
-export function isLiveChat(url) {
+function isLiveChat(url) {
     return url.startsWith('https://www.youtube.com/live_chat?')
         || url.startsWith('https://www.youtube.com/live_chat_replay?')
         ;
@@ -11,13 +11,13 @@ const ZENKAKU_MAP = {
 };
 
 // 全角数字・記号を半角に変換する(1文字→1文字なので文字列長は変わらない)
-export function normalizeFullwidthDigits(rawText) {
+function normalizeFullwidthDigits(rawText) {
     return rawText.replace(/[０-９：－ー―]/g, ch => ZENKAKU_MAP[ch]);
 }
 
 // 全角数字・記号を半角に正規化しつつ、コロン省略入力("828"→"8:28"等)を
 // 既存パーサーが扱える "8:28" 形式へ変換する
-export function normalizeTimecodeText(rawText) {
+function normalizeTimecodeText(rawText) {
     let text = normalizeFullwidthDigits(rawText).trim();
 
     const negative = text.startsWith('-');
@@ -36,4 +36,10 @@ export function normalizeTimecodeText(rawText) {
     }
 
     return text;
+}
+
+// Node (テスト) からはモジュールとして読み込めるようにする。
+// ブラウザのcontent script実行時はmoduleが存在しないため何もしない。
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { isLiveChat, normalizeFullwidthDigits, normalizeTimecodeText };
 }

@@ -1,13 +1,6 @@
-let normalizeTimecodeText;
-let normalizeFullwidthDigits;
-
-import(chrome.runtime.getURL('common.js')).then(common => {
-    normalizeTimecodeText = common.normalizeTimecodeText;
-    normalizeFullwidthDigits = common.normalizeFullwidthDigits;
-    if (!common.isLiveChat(location.href)) {
-        main();
-    }
-});
+if (!isLiveChat(location.href)) {
+    main();
+}
 
 function main() {
     let time_current_confirm;
