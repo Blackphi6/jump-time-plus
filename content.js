@@ -23,8 +23,9 @@ function main() {
         clearInterval(detect_interval);
 
         time_current.setAttribute('contenteditable', 'plaintext-only');
-        // IMEを持つ環境向けに、可能な範囲で半角英数入力を促す
-        time_current.setAttribute('inputmode', 'numeric');
+        // inputmode="numeric" はiPad(Orion/Safari)でEnterキーのない数字専用
+        // ソフトウェアキーボードになり確定できなくなるため使わない。
+        // 半角化は全角→半角正規化(normalizeFullwidthDigits)側で担う。
         time_current.setAttribute('autocomplete', 'off');
         time_current.setAttribute('autocorrect', 'off');
         time_current.setAttribute('autocapitalize', 'off');
